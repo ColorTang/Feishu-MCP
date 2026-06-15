@@ -36,6 +36,8 @@ coverage
 .DS_Store
 Thumbs.db
 
+package-lock.json
+
 prd
 cache
 feishu-mcp

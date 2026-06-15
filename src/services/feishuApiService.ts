@@ -5,6 +5,7 @@ import { FeishuBlockService } from '../modules/document/services/FeishuBlockServ
 import { FeishuFoldService } from '../modules/document/services/FeishuFoldService.js';
 import { FeishuSearchService } from '../modules/document/services/FeishuSearchService.js';
 import { FeishuWhiteboardService } from '../modules/document/services/FeishuWhiteboardService.js';
+import { FeishuBitableService } from '../modules/bitable/services/FeishuBitableService.js';
 import {
   FeishuTaskService,
   type CreateTaskParams,
@@ -46,6 +47,7 @@ export class FeishuApiService {
     private readonly taskService: FeishuTaskService,
     private readonly calendarService: FeishuCalendarService,
     private readonly memberService: FeishuMemberService,
+    private readonly bitableService: FeishuBitableService,
   ) {}
 
   /** 组装所有领域服务并返回 FeishuApiService 新实例 */
@@ -60,6 +62,7 @@ export class FeishuApiService {
     const taskService = new FeishuTaskService(authService);
     const calendarService = new FeishuCalendarService(authService);
     const memberService = new FeishuMemberService(authService);
+    const bitableService = new FeishuBitableService(authService);
 
     return new FeishuApiService(
       documentService,
@@ -70,6 +73,7 @@ export class FeishuApiService {
       taskService,
       calendarService,
       memberService,
+      bitableService,
     );
   }
 
@@ -445,5 +449,57 @@ export class FeishuApiService {
     userIdType: 'open_id' | 'union_id' | 'user_id' = 'open_id',
   ): Promise<{ items: any[] }> {
     return this.memberService.batchGetUsers(userIds, userIdType);
+  }
+
+  // ─── Bitable 服务委托 ─────────────────────────────────────────────
+
+  /** @see FeishuBitableService.listTables */
+  public async listBitableTables(appToken: string, pageToken?: string, pageSize?: number): Promise<any> {
+    return this.bitableService.listTables(appToken, pageToken, pageSize);
+  }
+
+  /** @see FeishuBitableService.listFields */
+  public async listBitableFields(appToken: string, tableId: string, pageToken?: string, pageSize?: number): Promise<any> {
+    return this.bitableService.listFields(appToken, tableId, pageToken, pageSize);
+  }
+
+  /** @see FeishuBitableService.listRecords */
+  public async listBitableRecords(appToken: string, tableId: string, pageToken?: string, pageSize?: number): Promise<any> {
+    return this.bitableService.listRecords(appToken, tableId, pageToken, pageSize);
+  }
+
+  /** @see FeishuBitableService.searchRecords */
+  public async searchBitableRecords(appToken: string, tableId: string, filter?: any, pageToken?: string, pageSize?: number): Promise<any> {
+    return this.bitableService.searchRecords(appToken, tableId, filter, pageToken, pageSize);
+  }
+
+  /** @see FeishuBitableService.createRecord */
+  public async createBitableRecord(appToken: string, tableId: string, fields: Record<string, any>): Promise<any> {
+    return this.bitableService.createRecord(appToken, tableId, fields);
+  }
+
+  /** @see FeishuBitableService.batchCreateRecords */
+  public async batchCreateBitableRecords(appToken: string, tableId: string, records: Array<{ fields: Record<string, any> }>): Promise<any> {
+    return this.bitableService.batchCreateRecords(appToken, tableId, records);
+  }
+
+  /** @see FeishuBitableService.updateRecord */
+  public async updateBitableRecord(appToken: string, tableId: string, recordId: string, fields: Record<string, any>): Promise<any> {
+    return this.bitableService.updateRecord(appToken, tableId, recordId, fields);
+  }
+
+  /** @see FeishuBitableService.batchUpdateRecords */
+  public async batchUpdateBitableRecords(appToken: string, tableId: string, records: Array<{ record_id: string; fields: Record<string, any> }>): Promise<any> {
+    return this.bitableService.batchUpdateRecords(appToken, tableId, records);
+  }
+
+  /** @see FeishuBitableService.deleteRecord */
+  public async deleteBitableRecord(appToken: string, tableId: string, recordId: string): Promise<any> {
+    return this.bitableService.deleteRecord(appToken, tableId, recordId);
+  }
+
+  /** @see FeishuBitableService.batchDeleteRecords */
+  public async batchDeleteBitableRecords(appToken: string, tableId: string, recordIds: string[]): Promise<any> {
+    return this.bitableService.batchDeleteRecords(appToken, tableId, recordIds);
   }
 }

@@ -46,28 +46,33 @@ export const MODULE_SCOPES: Record<string, { tenant: string[]; userOnly: string[
   },
   member: {
     tenant: [
-      // 调用批量获取用户信息 API 所需（任选其一即可）
       "contact:contact.base:readonly",
-      // 字段权限：返回完整用户信息
-      // "contact:user.assign_info:read",
       "contact:user.base:readonly",
-      // "contact:user.department:readonly",
-      // "contact:user.department_path:readonly",
-      // "contact:user.dotted_line_leader_info.read",
-      // "contact:user.employee:readonly",
-      // "contact:user.employee_id:readonly",
-      // "contact:user.employee_number:read",
-      // "contact:user.gender:readonly",
-      // "contact:user.user_geo",
-      // "contact:user.phone:readonly",
-      // "contact:user.email:readonly",
-      // "contact:user.job_family:readonly",
-      // "contact:user.job_level:readonly",
     ],
     userOnly: [
       "contact:user:search",
       "contact:contact.base:readonly",
       "contact:user.employee_id:readonly",
+    ],
+  },
+  bitable: {
+    tenant: [
+      "bitable:app",
+      "bitable:app:readonly",
+      "base:app:read",
+      "base:record:retrieve",
+      "base:record:create",
+      "base:record:update",
+      "base:record:delete",
+    ],
+    userOnly: [
+      "bitable:app",
+      "bitable:app:readonly",
+      "base:app:read",
+      "base:record:retrieve",
+      "base:record:create",
+      "base:record:update",
+      "base:record:delete",
     ],
   },
 };
