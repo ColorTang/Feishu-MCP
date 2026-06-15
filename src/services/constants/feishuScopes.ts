@@ -20,8 +20,6 @@ export const MODULE_SCOPES: Record<string, { tenant: string[]; userOnly: string[
       "drive:drive:readonly",
       "drive:file",
       "drive:file:upload",
-      "sheets:spreadsheet",
-      "sheets:spreadsheet:readonly",
       "space:document:retrieve",
       "space:folder:create",
       "wiki:space:read",
@@ -74,6 +72,13 @@ export const MODULE_SCOPES: Record<string, { tenant: string[]; userOnly: string[
       "base:record:update",
       "base:record:delete",
     ],
+  },
+  sheet: {
+    tenant: [
+      "sheets:spreadsheet",
+      "sheets:spreadsheet:readonly",
+    ],
+    userOnly: [],
   },
 };
 

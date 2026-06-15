@@ -1,0 +1,27 @@
+{
+  "name": "batch_delete_feishu_bitable_records",
+  "description": "Deletes multiple records from a Bitable table in one call.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "appToken": {
+        "type": "string",
+        "description": "Bitable app token (required). Found in the URL of a Feishu Bitable: `https://xxx.feishu.cn/base/{appToken}`."
+      },
+      "tableId": {
+        "type": "string",
+        "description": "Bitable table ID (required). Found in the URL query parameter `table={tableId}`, typically starts with \"tbl\"."
+      },
+      "recordIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Array of record IDs to delete (required). Each ID typically starts with \"rec\"."
+      }
+    },
+    "required": ["appToken", "tableId", "recordIds"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

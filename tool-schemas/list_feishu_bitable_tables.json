@@ -1,0 +1,27 @@
+{
+  "name": "list_feishu_bitable_tables",
+  "description": "Lists all tables within a Feishu Bitable app.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "appToken": {
+        "type": "string",
+        "description": "Bitable app token (required). Found in the URL of a Feishu Bitable: `https://xxx.feishu.cn/base/{appToken}`."
+      },
+      "pageToken": {
+        "type": "string",
+        "description": "Pagination token (optional). Use the page_token from the previous response to fetch the next page."
+      },
+      "pageSize": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 500,
+        "default": 100,
+        "description": "Number of items per page (optional). Max 500, default 100."
+      }
+    },
+    "required": ["appToken"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

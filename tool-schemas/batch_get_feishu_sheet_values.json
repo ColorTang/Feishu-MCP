@@ -1,0 +1,24 @@
+{
+  "name": "batch_get_feishu_sheet_values",
+  "description": "Reads values from multiple cell ranges in one request.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "spreadsheetToken": {
+        "type": "string",
+        "description": "Feishu spreadsheet token (required)."
+      },
+      "ranges": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "description": "Array of cell ranges to read in one request (required). Examples: \"A1:C10\" (active sheet), \"{sheetId}!A1:C10\" (specific sheet by ID), \"Sheet1!A1:C10\" (specific sheet by title). For multi-sheet spreadsheets, always prefix with sheetId or sheet title to avoid ambiguity."
+      }
+    },
+    "required": ["spreadsheetToken", "ranges"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

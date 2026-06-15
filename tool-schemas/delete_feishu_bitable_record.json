@@ -1,0 +1,24 @@
+{
+  "name": "delete_feishu_bitable_record",
+  "description": "Deletes a single record from a Bitable table.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "appToken": {
+        "type": "string",
+        "description": "Bitable app token (required). Found in the URL of a Feishu Bitable: `https://xxx.feishu.cn/base/{appToken}`."
+      },
+      "tableId": {
+        "type": "string",
+        "description": "Bitable table ID (required). Found in the URL query parameter `table={tableId}`, typically starts with \"tbl\"."
+      },
+      "recordId": {
+        "type": "string",
+        "description": "Bitable record ID (required). Unique identifier of a record, typically starts with \"rec\"."
+      }
+    },
+    "required": ["appToken", "tableId", "recordId"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

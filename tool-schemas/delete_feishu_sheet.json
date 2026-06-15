@@ -1,0 +1,20 @@
+{
+  "name": "delete_feishu_sheet",
+  "description": "Deletes a worksheet from a spreadsheet.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "spreadsheetToken": {
+        "type": "string",
+        "description": "Feishu spreadsheet token (required). Found in the URL: https://xxx.feishu.cn/sheets/{spreadsheetToken}. Typically starts with \"shtc\"."
+      },
+      "sheetId": {
+        "type": "string",
+        "description": "Sheet ID (required). Use list_feishu_sheets to obtain it."
+      }
+    },
+    "required": ["spreadsheetToken", "sheetId"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

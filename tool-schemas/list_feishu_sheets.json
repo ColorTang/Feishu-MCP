@@ -1,0 +1,16 @@
+{
+  "name": "list_feishu_sheets",
+  "description": "Lists all worksheets within a spreadsheet.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "spreadsheetToken": {
+        "type": "string",
+        "description": "Feishu spreadsheet token (required). Found in the URL: https://xxx.feishu.cn/sheets/{spreadsheetToken}. Typically starts with \"shtc\"."
+      }
+    },
+    "required": ["spreadsheetToken"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

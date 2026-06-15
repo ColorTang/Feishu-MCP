@@ -6,6 +6,7 @@ import { FeishuFoldService } from '../modules/document/services/FeishuFoldServic
 import { FeishuSearchService } from '../modules/document/services/FeishuSearchService.js';
 import { FeishuWhiteboardService } from '../modules/document/services/FeishuWhiteboardService.js';
 import { FeishuBitableService } from '../modules/bitable/services/FeishuBitableService.js';
+import { FeishuSheetService } from '../modules/sheet/services/FeishuSheetService.js';
 import {
   FeishuTaskService,
   type CreateTaskParams,
@@ -48,6 +49,7 @@ export class FeishuApiService {
     private readonly calendarService: FeishuCalendarService,
     private readonly memberService: FeishuMemberService,
     private readonly bitableService: FeishuBitableService,
+    private readonly sheetService: FeishuSheetService,
   ) {}
 
   /** 组装所有领域服务并返回 FeishuApiService 新实例 */
@@ -63,6 +65,7 @@ export class FeishuApiService {
     const calendarService = new FeishuCalendarService(authService);
     const memberService = new FeishuMemberService(authService);
     const bitableService = new FeishuBitableService(authService);
+    const sheetService = new FeishuSheetService(authService);
 
     return new FeishuApiService(
       documentService,
@@ -74,6 +77,7 @@ export class FeishuApiService {
       calendarService,
       memberService,
       bitableService,
+      sheetService,
     );
   }
 
@@ -501,5 +505,62 @@ export class FeishuApiService {
   /** @see FeishuBitableService.batchDeleteRecords */
   public async batchDeleteBitableRecords(appToken: string, tableId: string, recordIds: string[]): Promise<any> {
     return this.bitableService.batchDeleteRecords(appToken, tableId, recordIds);
+  }
+
+  // ─── Sheet 服务委托 ───────────────────────────────────────────────
+
+  /** @see FeishuSheetService.getSpreadsheetInfo */
+  public async getSpreadsheetInfo(spreadsheetToken: string): Promise<any> {
+    return this.sheetService.getSpreadsheetInfo(spreadsheetToken);
+  }
+
+  /** @see FeishuSheetService.listSheets */
+  public async listSheets(spreadsheetToken: string): Promise<any> {
+    return this.sheetService.listSheets(spreadsheetToken);
+  }
+
+  /** @see FeishuSheetService.createSheet */
+  public async createSheet(spreadsheetToken: string, title: string): Promise<any> {
+    return this.sheetService.createSheet(spreadsheetToken, title);
+  }
+
+  /** @see FeishuSheetService.deleteSheet */
+  public async deleteSheet(spreadsheetToken: string, sheetId: string): Promise<any> {
+    return this.sheetService.deleteSheet(spreadsheetToken, sheetId);
+  }
+
+  /** @see FeishuSheetService.updateSheet */
+  public async updateSheet(spreadsheetToken: string, sheetId: string, title: string): Promise<any> {
+    return this.sheetService.updateSheet(spreadsheetToken, sheetId, title);
+  }
+
+  /** @see FeishuSheetService.getValues */
+  public async getSheetValues(spreadsheetToken: string, range: string): Promise<any> {
+    return this.sheetService.getValues(spreadsheetToken, range);
+  }
+
+  /** @see FeishuSheetService.batchGetValues */
+  public async batchGetSheetValues(spreadsheetToken: string, ranges: string[]): Promise<any> {
+    return this.sheetService.batchGetValues(spreadsheetToken, ranges);
+  }
+
+  /** @see FeishuSheetService.setValues */
+  public async setSheetValues(
+    spreadsheetToken: string,
+    range: string,
+    values: any[][],
+    valueInputOption: 'RAW' | 'USER_ENTERED' = 'USER_ENTERED'
+  ): Promise<any> {
+    return this.sheetService.setValues(spreadsheetToken, range, values, valueInputOption);
+  }
+
+  /** @see FeishuSheetService.appendValues */
+  public async appendSheetValues(
+    spreadsheetToken: string,
+    range: string,
+    values: any[][],
+    valueInputOption: 'RAW' | 'USER_ENTERED' = 'USER_ENTERED'
+  ): Promise<any> {
+    return this.sheetService.appendValues(spreadsheetToken, range, values, valueInputOption);
   }
 }

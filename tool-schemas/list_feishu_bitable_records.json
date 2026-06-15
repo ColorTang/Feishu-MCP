@@ -1,0 +1,31 @@
+{
+  "name": "list_feishu_bitable_records",
+  "description": "Lists records of a Bitable table with pagination.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "appToken": {
+        "type": "string",
+        "description": "Bitable app token (required). Found in the URL of a Feishu Bitable: `https://xxx.feishu.cn/base/{appToken}`."
+      },
+      "tableId": {
+        "type": "string",
+        "description": "Bitable table ID (required). Found in the URL query parameter `table={tableId}`, typically starts with \"tbl\"."
+      },
+      "pageToken": {
+        "type": "string",
+        "description": "Pagination token (optional). Use the page_token from the previous response to fetch the next page."
+      },
+      "pageSize": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 500,
+        "default": 100,
+        "description": "Number of items per page (optional). Max 500, default 100."
+      }
+    },
+    "required": ["appToken", "tableId"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

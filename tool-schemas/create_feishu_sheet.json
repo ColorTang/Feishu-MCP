@@ -1,0 +1,22 @@
+{
+  "name": "create_feishu_sheet",
+  "description": "Creates a new worksheet in a spreadsheet.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "spreadsheetToken": {
+        "type": "string",
+        "description": "Feishu spreadsheet token (required). Found in the URL: https://xxx.feishu.cn/sheets/{spreadsheetToken}. Typically starts with \"shtc\"."
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100,
+        "description": "Title of the new sheet (required)."
+      }
+    },
+    "required": ["spreadsheetToken", "title"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

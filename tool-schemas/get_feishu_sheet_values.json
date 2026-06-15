@@ -1,0 +1,20 @@
+{
+  "name": "get_feishu_sheet_values",
+  "description": "Reads values from a cell range in A1 notation.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "spreadsheetToken": {
+        "type": "string",
+        "description": "Feishu spreadsheet token (required)."
+      },
+      "range": {
+        "type": "string",
+        "description": "Cell range in A1 notation (required). Examples: \"A1:C10\" (active sheet), \"{sheetId}!A1:C10\" (specific sheet by ID), \"Sheet1!A1:C10\" (specific sheet by title). For multi-sheet spreadsheets, always prefix with sheetId or sheet title to avoid ambiguity."
+      }
+    },
+    "required": ["spreadsheetToken", "range"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

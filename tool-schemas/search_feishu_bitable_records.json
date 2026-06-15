@@ -1,0 +1,34 @@
+{
+  "name": "search_feishu_bitable_records",
+  "description": "Searches records in a Bitable table using a filter.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "appToken": {
+        "type": "string",
+        "description": "Bitable app token (required). Found in the URL of a Feishu Bitable: `https://xxx.feishu.cn/base/{appToken}`."
+      },
+      "tableId": {
+        "type": "string",
+        "description": "Bitable table ID (required). Found in the URL query parameter `table={tableId}`, typically starts with \"tbl\"."
+      },
+      "filter": {
+        "description": "Optional query filter object. See Feishu Bitable API documentation for filter syntax. Examples:\n{ \"conjunction\": \"and\", \"conditions\": [{ \"field_name\": \"Status\", \"operator\": \"is\", \"value\": [\"Done\"] }] }\nIf omitted, all records are returned."
+      },
+      "pageToken": {
+        "type": "string",
+        "description": "Pagination token (optional). Use the page_token from the previous response to fetch the next page."
+      },
+      "pageSize": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 500,
+        "default": 100,
+        "description": "Number of items per page (optional). Max 500, default 100."
+      }
+    },
+    "required": ["appToken", "tableId"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

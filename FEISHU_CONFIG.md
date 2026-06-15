@@ -11,7 +11,7 @@
 #### 2. 导入权限
 ![导入权限](image/Import_permissions.png)
 
-> **按需导入**：需要哪些模块功能就导入哪个权限。仅用文档则导入文档模块，需要任务管理则导入任务模块，需要用户查询则导入成员模块。使用多个模块时，将各模块的 `tenant` 和 `user` 数组分别合并后导入。
+> **按需导入**：需要哪些模块功能就导入哪个权限。仅用文档则导入文档模块，需要任务管理则导入任务模块，需要用户查询则导入成员模块，需要多维表格则导入多维表格模块，需要电子表格则导入电子表格模块。使用多个模块时，将各模块的 `tenant` 和 `user` 数组分别合并后导入。
 
 **文档模块**（tenant / user 均需）
 ```
@@ -100,6 +100,40 @@
       "contact:user.base:readonly",
       "contact:user:search",
       "contact:user.employee_id:readonly"
+    ]
+  }
+}
+```
+
+**多维表格模块**（tenant / user 均需）
+```
+{
+  "scopes": {
+    "tenant": [
+      "base:app:read",
+      "bitable:app",
+      "bitable:app:readonly"
+    ],
+    "user": [
+      "base:app:read",
+      "bitable:app",
+      "bitable:app:readonly"
+    ]
+  }
+}
+```
+
+**电子表格模块**（tenant / user 均需）
+```
+{
+  "scopes": {
+    "tenant": [
+      "sheets:spreadsheet",
+      "sheets:spreadsheet:readonly"
+    ],
+    "user": [
+      "sheets:spreadsheet",
+      "sheets:spreadsheet:readonly"
     ]
   }
 }

@@ -1,0 +1,34 @@
+{
+  "name": "batch_create_feishu_bitable_records",
+  "description": "Creates multiple records in a Bitable table in one call.",
+  "arguments": {
+    "type": "object",
+    "properties": {
+      "appToken": {
+        "type": "string",
+        "description": "Bitable app token (required). Found in the URL of a Feishu Bitable: `https://xxx.feishu.cn/base/{appToken}`."
+      },
+      "tableId": {
+        "type": "string",
+        "description": "Bitable table ID (required). Found in the URL query parameter `table={tableId}`, typically starts with \"tbl\"."
+      },
+      "records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "fields": {
+              "type": "object",
+              "description": "Record fields as a key-value object. Field names are the visible names in Bitable. Values depend on field type:\n- Text: \"hello\"\n- Number: 123\n- Date: 1704067200000 (timestamp in milliseconds)\n- Single select: \"Option A\"\n- Multi select: [\"Option A\", \"Option B\"]\n- User: [{ id: \"ou_xxx\", id_type: \"open_id\" }]\n- Checkbox: true\n- URL: { text: \"Google\", link: \"https://google.com\" }"
+            }
+          },
+          "required": ["fields"]
+        },
+        "description": "Array of records to create (required). Each item contains a `fields` object."
+      }
+    },
+    "required": ["appToken", "tableId", "records"],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

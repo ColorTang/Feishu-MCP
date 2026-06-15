@@ -34,6 +34,33 @@ import { createTasks, listTasks, updateTask, deleteTasks } from '../modules/task
 // Member toolApis
 import { getUsers } from '../modules/member/toolApi/index.js';
 
+// Sheet toolApis
+import {
+  getSpreadsheetInfo,
+  listSheets,
+  createSheet,
+  deleteSheet,
+  updateSheet,
+  getSheetValues,
+  batchGetSheetValues,
+  setSheetValues,
+  appendSheetValues,
+} from '../modules/sheet/toolApi/sheetToolApi.js';
+
+// Bitable toolApis
+import {
+  listBitableTables,
+  listBitableFields,
+  listBitableRecords,
+  searchBitableRecords,
+  createBitableRecord,
+  batchCreateBitableRecords,
+  updateBitableRecord,
+  batchUpdateBitableRecords,
+  deleteBitableRecord,
+  batchDeleteBitableRecords,
+} from '../modules/bitable/toolApi/bitableToolApi.js';
+
 type AuthType = 'tenant' | 'user';
 type ToolHandler = (params: any, svc: FeishuApiService) => Promise<any>;
 
@@ -106,6 +133,40 @@ const MODULE_REGISTRY: Record<string, ModuleToolMap> = {
     authType: 'user',
     tools: {
       get_feishu_users: (p, s) => getUsers(p, s),
+    },
+  },
+
+  sheet: {
+    authType: 'tenant',
+    tools: {
+      get_feishu_spreadsheet_info: (p, s) => getSpreadsheetInfo(p, s),
+      list_feishu_sheets:          (p, s) => listSheets(p, s),
+      create_feishu_sheet:         (p, s) => createSheet(p, s),
+      delete_feishu_sheet:         (p, s) => deleteSheet(p, s),
+      update_feishu_sheet:         (p, s) => updateSheet(p, s),
+      get_feishu_sheet_values:     (p, s) => getSheetValues(p, s),
+      batch_get_feishu_sheet_values: (p, s) => batchGetSheetValues(p, s),
+      set_feishu_sheet_values:     (p, s) => setSheetValues(p, s),
+      append_feishu_sheet_values:  (p, s) => appendSheetValues(p, s),
+    },
+  },
+
+  bitable: {
+    authType: 'tenant',
+    tools: {
+      list_feishu_bitable_tables:            (p, s) => listBitableTables(p, s),
+      list_feishu_bitable_fields:            (p, s) => listBitableFields(p, s),
+      list_feishu_bitable_records:           (p, s) => listBitableRecords(p, s),
+      search_feishu_bitable_records:         (p, s) => searchBitableRecords(p, s),
+      create_feishu_bitable_record:          (p, s) => createBitableRecord(p, s),
+      batch_create_feishu_bitable_records:   (p, s) => batchCreateBitableRecords(p, s),
+      update_feishu_bitable_record:          (p, s) => updateBitableRecord(p, s),
+      batch_update_feishu_bitable_records:   (p, s) => batchUpdateBitableRecords(
+        { ...p, records: p.records.map((r: any) => ({ record_id: r.recordId, fields: r.fields })) },
+        s
+      ),
+      delete_feishu_bitable_record:          (p, s) => deleteBitableRecord(p, s),
+      batch_delete_feishu_bitable_records:   (p, s) => batchDeleteBitableRecords(p, s),
     },
   },
 };

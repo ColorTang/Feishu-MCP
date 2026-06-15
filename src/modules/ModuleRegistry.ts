@@ -4,6 +4,7 @@ import { taskModule } from './task/index.js';
 import { calendarModule } from './calendar/index.js';
 import { memberModule } from './member/index.js';
 import { bitableModule } from './bitable/index.js';
+import { sheetModule } from './sheet/index.js';
 
 const ALL_MODULES: FeatureModule[] = [
   documentModule,
@@ -11,6 +12,7 @@ const ALL_MODULES: FeatureModule[] = [
   calendarModule,
   memberModule,
   bitableModule,
+  sheetModule,
 ];
 
 /**

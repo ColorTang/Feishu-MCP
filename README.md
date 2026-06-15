@@ -4,7 +4,7 @@
 [![npm version](https://img.shields.io/npm/v/feishu-mcp?color=blue&label=npm)](https://www.npmjs.com/package/feishu-mcp)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-为 [Cursor](https://cursor.sh/)、[Windsurf](https://codeium.com/windsurf)、[Cline](https://cline.bot/) 和其他 AI 驱动的编码工具提供访问、编辑和结构化处理飞书文档的能力，**并支持飞书任务管理和用户信息查询**，基于 [Model Context Protocol](https://modelcontextprotocol.io/introduction) 服务器实现。
+为 [Cursor](https://cursor.sh/)、[Windsurf](https://codeium.com/windsurf)、[Cline](https://cline.bot/) 和其他 AI 驱动的编码工具提供访问、编辑和结构化处理飞书文档的能力，**并支持飞书任务管理、用户信息查询、多维表格和电子表格操作**，基于 [Model Context Protocol](https://modelcontextprotocol.io/introduction) 服务器实现。
 
 **现已支持 `feishu-tool` 独立 CLI 工具**，可在终端或脚本中直接调用所有飞书工具，无需启动 MCP 服务器。配合 [Feishu-Skill](https://github.com/cso1z/Feishu-Skill) 可让 Claude Code 等 AI Agent 自动选择最合适的方式操作飞书。
 
@@ -12,6 +12,8 @@
 - **文档处理**：直接获取、理解、创建和编辑飞书文档，显著提升文档处理的智能化和效率
 - **任务管理**：列取、创建、更新、删除飞书任务，支持子任务和成员管理（需 user 认证）
 - **用户信息**：按名称搜索或按 ID 批量获取飞书用户，便于任务分配和文档协作（需 user 认证）
+- **多维表格**：列出数据表、字段和记录，支持记录的增删改查及批量操作（tenant / user 均可）
+- **电子表格**：读取、写入、追加单元格数据，以及工作表的增删改查（tenant / user 均可）
 
 **完整覆盖飞书文档的真实使用流程，助你高效利用文档资源：**
 1. **文件夹目录获取**：快速获取和浏览飞书文档文件夹下的所有文档，便于整体管理和查找。
@@ -19,6 +21,7 @@
 3. **智能创建与编辑**：可自动创建新文档、批量生成和编辑内容，满足多样化写作需求。
 4. **高效检索与搜索**：内置关键字搜索，帮助你在大量文档中迅速找到目标信息。
 5. **任务管理与用户查询**：支持飞书任务 CRUD 及用户信息搜索，便于在文档中关联任务和人员。
+6. **多维表格与电子表格**：支持 Bitable 记录 CRUD 和 Sheet 单元格读写，覆盖更多结构化数据场景。
 
 本项目让你在飞书文档的日常使用流程中实现智能获取、编辑和搜索，并扩展任务与用户管理能力，提升内容处理效率和体验。
 
@@ -70,6 +73,25 @@
 | | `update_feishu_task`                  | 更新任务         | 修改内容、成员、提醒               | ✅ 已完成 |
 | | `delete_feishu_task`                  | 批量删除任务       | 清理任务                       | ✅ 已完成 |
 | **用户信息** | `get_feishu_users`                   | 按名称搜索或按 ID 批量获取用户 | 查找成员、任务分配               | ✅ 已完成 |
+| **多维表格** | `list_feishu_bitable_tables`         | 列出所有数据表     | 获取 Bitable 中的 tableId        | ✅ 已完成 |
+| | `list_feishu_bitable_fields`         | 列出数据表字段     | 了解字段结构和类型                | ✅ 已完成 |
+| | `list_feishu_bitable_records`        | 列出记录         | 分页查询数据                     | ✅ 已完成 |
+| | `search_feishu_bitable_records`      | 搜索记录         | 按条件过滤查询                   | ✅ 已完成 |
+| | `create_feishu_bitable_record`       | 创建记录         | 新增单条记录                     | ✅ 已完成 |
+| | `batch_create_feishu_bitable_records` | 批量创建记录     | 一次新增多条记录                 | ✅ 已完成 |
+| | `update_feishu_bitable_record`       | 更新记录         | 修改单条记录                     | ✅ 已完成 |
+| | `batch_update_feishu_bitable_records` | 批量更新记录     | 一次修改多条记录                 | ✅ 已完成 |
+| | `delete_feishu_bitable_record`       | 删除记录         | 删除单条记录                     | ✅ 已完成 |
+| | `batch_delete_feishu_bitable_records` | 批量删除记录     | 一次删除多条记录                 | ✅ 已完成 |
+| **电子表格** | `get_feishu_spreadsheet_info`        | 获取表格元数据     | 确认表格存在和权限                | ✅ 已完成 |
+| | `list_feishu_sheets`                 | 列出工作表       | 获取 sheetId                     | ✅ 已完成 |
+| | `create_feishu_sheet`                | 创建工作表       | 新建工作表                       | ✅ 已完成 |
+| | `delete_feishu_sheet`                | 删除工作表       | 清理工作表                       | ✅ 已完成 |
+| | `update_feishu_sheet`                | 更新工作表       | 重命名等属性修改                 | ✅ 已完成 |
+| | `get_feishu_sheet_values`            | 读取单元格       | 读取指定范围数据                 | ✅ 已完成 |
+| | `batch_get_feishu_sheet_values`      | 批量读取单元格   | 一次读取多个范围                 | ✅ 已完成 |
+| | `set_feishu_sheet_values`            | 写入单元格       | 覆盖写入指定范围                 | ✅ 已完成 |
+| | `append_feishu_sheet_values`         | 追加行          | 在表格末尾追加数据               | ✅ 已完成 |
 
 ### 🎨 支持的样式功能（基本支持md所有格式）
 
@@ -114,6 +136,8 @@
 - ~~**Tool API 层抽取**：新建 Tool API 层，与 tool 层一一对应，统一参数校验、数据转换、错误映射等~~ ✅
 - ~~**兼容 CLI 模式**：支持 `feishu-tool <tool-name> '<json>'` 命令行调用，便于脚本与自动化场景~~ 0.2.6 ✅
 - ~~**完成 Skill**：提供 [Feishu-Skill](https://github.com/cso1z/Feishu-Skill)，指导 Claude Code 等 AI Agent 在合适场景下使用 feishu-mcp CLI~~ 0.2.6 ✅
+- ~~**支持多维表格**：Bitable 数据表、字段、记录的增删改查及批量操作~~ 0.3.3 ✅
+- ~~**支持电子表格**：Sheet 工作表、单元格读写与追加~~ 0.3.3 ✅
 ---
 
 ## 🔧 飞书配置教程
@@ -230,7 +254,7 @@ feishu-tool create_feishu_document '{"title": "测试文档"}'
 | `FEISHU_PUBLIC_BASE_URL` | ❌ | 服务对外可访问的基础 URL。`user` 认证时若 MCP 通过内网地址访问、但 OAuth 回调需走公网域名，可设置为如 `https://mcp.example.com` | - |
 | `FEISHU_AUTH_TYPE` | ❌ | 认证凭证类型，使用 `user`（用户级,使用时是用户的身份操作飞书文档，需OAuth授权），使用 `tenant`（应用级，默认） | `tenant` |
 | `FEISHU_SCOPE_VALIDATION` | ❌ | 是否启用权限检查，设置为 `false` 可关闭权限检查（适用于仅使用部分功能的场景） | `true` |
-| `FEISHU_ENABLED_MODULES` | ❌ | 启用模块：`document`、`task`、`calendar`、`member`、`all`。task/calendar/member 需 user 认证 | `document` |
+| `FEISHU_ENABLED_MODULES` | ❌ | 启用模块：`document`、`task`、`calendar`、`member`、`bitable`、`sheet`、`all`。task/calendar/member 需 user 认证；bitable/sheet 支持 tenant | `document` |
 | `FEISHU_USER_KEY` | ❌ | `stdio/CLI` 模式的用户标识，可通过 `feishu-tool config set FEISHU_USER_KEY <value>` 或命令行参数 `--user-key` 设置 | `stdio` |
 | `FEISHU_REQUIRE_USER_KEY` | ❌ | `user` 认证模式下是否强制要求显式 user-key。默认保持兼容；多用户 HTTP/中转场景建议设为 `true` | `false` |
 | `FEISHU_ENCRYPTION_KEY` | ❌ | Token缓存敏感字段加密密钥。任意字符串，系统自动通过SHA-256派生加密密钥。设置后 `access_token`、`refresh_token`、`client_secret` 等敏感字段将被加密存储。Docker部署时建议设置固定密钥 | - |
@@ -244,6 +268,8 @@ feishu-tool create_feishu_document '{"title": "测试文档"}'
 | `task` | 任务 CRUD | 仅 user |
 | `calendar` | 日历（开发中） | 仅 user |
 | `member` | 用户信息查询 | 仅 user |
+| `bitable` | 多维表格 CRUD | tenant / user |
+| `sheet` | 电子表格读写 | tenant / user |
 | `all` | 启用全部模块 | user 时全部加载 |
 
 ### 配置文件方式（适用于 Cursor、Cline 等）
@@ -352,7 +378,10 @@ curl -X POST -H "Authorization: Bearer your-secret-token-here" -H "Content-Type:
 6. ### **任务与用户信息功能**：
    想用 AI 帮你管理飞书任务（列出待办、创建任务、分配负责人）或查找同事信息？需要两步：① 使用 **user 认证**（tenant 模式下不提供这些能力）；② 在配置中设置 `FEISHU_ENABLED_MODULES=document,task`。启用 task 后，用户查询功能会自动可用，无需额外配置。
 
-7. ### **使用 Lark 国际版**：
+7. ### **多维表格与电子表格功能**：
+   想用 AI 帮你操作飞书多维表格（Bitable）或电子表格（Sheet）？在配置中设置 `FEISHU_ENABLED_MODULES=document,bitable,sheet` 即可启用。bitable 和 sheet 模块同时支持 tenant 和 user 认证。
+
+8. ### **使用 Lark 国际版**：
    飞书国内版无需额外配置。如果你的团队使用 **Lark 国际版或自建飞书服务**，需额外设置：
    ```env
    FEISHU_BASE_URL=https://open.larksuite.com/open-apis
