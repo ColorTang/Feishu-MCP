@@ -37,6 +37,16 @@ export const SheetPageSizeSchema = z.number().int().min(1).max(500).optional().d
   'Number of items per page (optional). Max 500, default 100.'
 );
 
+// 电子表格标题
+export const SpreadsheetTitleSchema = z.string().min(1).max(255).describe(
+  'Title of the new spreadsheet file.'
+);
+
+// 文件夹 token（可选）
+export const SpreadsheetFolderTokenSchema = z.string().optional().describe(
+  'Optional folder token where the spreadsheet will be created. If omitted, creates in the user\'s root drive.'
+);
+
 // 工作表标题
 export const SheetTitleSchema = z.string().min(1).max(100).describe(
   'Title of the new sheet.'

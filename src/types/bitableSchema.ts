@@ -55,3 +55,43 @@ export const BitableFilterSchema = z.any().optional().describe(
     '{ "conjunction": "and", "conditions": [{ "field_name": "Status", "operator": "is", "value": ["Done"] }] }\n' +
     'If omitted, all records are returned.'
 );
+
+// 多维表名称
+export const BitableAppNameSchema = z.string().min(1).max(255).describe(
+  'Name of the new Bitable app.'
+);
+
+// 文件夹 token（可选）
+export const BitableFolderTokenSchema = z.string().optional().describe(
+  'Optional folder token where the Bitable app will be created. If omitted, creates in the user\'s root drive.'
+);
+
+// 表格名称
+export const BitableTableNameSchema = z.string().min(1).max(255).describe(
+  'Name of the new table within a Bitable app.'
+);
+
+// 字段类型（飞书 API 使用数字 type）
+export const BitableFieldTypeSchema = z.number().int().min(1).max(23).describe(
+  'Field type number for a new Bitable field. Common values:\n' +
+    '1: Text, 2: Number, 3: SingleSelect, 4: MultiSelect, 5: DateTime, 7: Checkbox,\n' +
+    '8: MultilineText, 11: Attachment, 13: Url, 14: Formula, 15: DuplexLink,\n' +
+    '17: LookUp, 18: AutoNumber, 19: CreatedTime, 20: ModifiedTime,\n' +
+    '21: CreatedUser, 22: ModifiedUser, 23: Button.'
+);
+
+// 字段属性（根据类型变化）
+export const BitableFieldPropertySchema = z.record(z.any()).optional().describe(
+  'Optional field properties depending on field type.\n' +
+    '- SingleSelect/MultiSelect: { options: [{ name: "Option A", color: 1 }] }\n' +
+    '- Number: { formatter: "0.00" }\n' +
+    '- DateTime: { date_formatter: "yyyy/MM/dd", time_formatter: "HH:mm" }\n' +
+    'See Feishu Bitable API docs for full details.'
+);
+
+// 创建字段参数
+export const BitableCreateFieldSchema = z.object({
+  fieldName: z.string().min(1).max(255).describe('Name of the new field.'),
+  fieldType: BitableFieldTypeSchema,
+  property: BitableFieldPropertySchema,
+});

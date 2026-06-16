@@ -11,6 +11,59 @@ export class FeishuBitableService extends FeishuBaseApiService {
   }
 
   /**
+   * 创建多维表
+   * @param name 多维表名称
+   * @param folderToken 目标文件夹 token（可选）
+   */
+  public async createApp(name: string, folderToken?: string): Promise<any> {
+    try {
+      const body: any = { name };
+      if (folderToken) body.folder_token = folderToken;
+      return this.post('/bitable/v1/apps', body);
+    } catch (error) {
+      this.handleApiError(error, '创建多维表失败');
+    }
+  }
+
+  /**
+   * 在多维表下创建表格
+   * @param appToken 多维表 app token
+   * @param name 表格名称
+   */
+  public async createTable(appToken: string, name: string): Promise<any> {
+    try {
+      return this.post(`/bitable/v1/apps/${appToken}/tables`, { table: { name } });
+    } catch (error) {
+      this.handleApiError(error, '创建多维表表格失败');
+    }
+  }
+
+  /**
+   * 在表格下创建字段
+   * @param appToken 多维表 app token
+   * @param tableId 表格 ID
+   * @param fieldName 字段名称
+   * @param fieldType 字段类型
+   * @param property 字段属性（可选）
+   */
+  public async createField(
+    appToken: string,
+    tableId: string,
+    fieldName: string,
+    fieldType: number,
+    property?: Record<string, any>
+  ): Promise<any> {
+    try {
+      const body: any = { field_name: fieldName, type: fieldType };
+      if (property) body.property = property;
+      return this.post(`/bitable/v1/apps/${appToken}/tables/${tableId}/fields`, body);
+    } catch (error) {
+      this.handleApiError(error, '创建多维表字段失败');
+    }
+  }
+
+
+  /**
    * 列出多维表格下的所有表格
    * @param appToken 多维表格 app token
    * @param pageToken 分页 token

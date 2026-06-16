@@ -1,6 +1,42 @@
 import { FeishuApiService } from '../../../services/feishuApiService.js';
 import { Logger } from '../../../utils/logger.js';
 
+export interface CreateBitableAppParams {
+  name: string;
+  folderToken?: string;
+}
+
+export async function createBitableApp(params: CreateBitableAppParams, api: FeishuApiService): Promise<any> {
+  const { name, folderToken } = params;
+  Logger.info(`createBitableApp invoked: name=${name}`);
+  return api.createBitableApp(name, folderToken);
+}
+
+export interface CreateBitableTableParams {
+  appToken: string;
+  name: string;
+}
+
+export async function createBitableTable(params: CreateBitableTableParams, api: FeishuApiService): Promise<any> {
+  const { appToken, name } = params;
+  Logger.info(`createBitableTable invoked: appToken=${appToken}, name=${name}`);
+  return api.createBitableTable(appToken, name);
+}
+
+export interface CreateBitableFieldParams {
+  appToken: string;
+  tableId: string;
+  fieldName: string;
+  fieldType: number;
+  property?: Record<string, any>;
+}
+
+export async function createBitableField(params: CreateBitableFieldParams, api: FeishuApiService): Promise<any> {
+  const { appToken, tableId, fieldName, fieldType, property } = params;
+  Logger.info(`createBitableField invoked: appToken=${appToken}, tableId=${tableId}, fieldName=${fieldName}`);
+  return api.createBitableField(appToken, tableId, fieldName, fieldType, property);
+}
+
 export interface ListBitableTablesParams {
   appToken: string;
   pageToken?: string;

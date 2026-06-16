@@ -4,6 +4,9 @@ import { formatErrorMessage } from '../../../utils/error.js';
 import { FeishuApiService } from '../../../services/feishuApiService.js';
 import { Logger } from '../../../utils/logger.js';
 import {
+  createBitableApp,
+  createBitableTable,
+  createBitableField,
   listBitableTables,
   listBitableFields,
   listBitableRecords,
@@ -23,6 +26,10 @@ import {
   BitablePageSizeSchema,
   BitableFieldsSchema,
   BitableFilterSchema,
+  BitableAppNameSchema,
+  BitableFolderTokenSchema,
+  BitableTableNameSchema,
+  BitableCreateFieldSchema,
 } from '../../../types/bitableSchema.js';
 import { errorResponse } from '../../document/tools/toolHelpers.js';
 
@@ -30,6 +37,66 @@ import { errorResponse } from '../../document/tools/toolHelpers.js';
  * 注册飞书多维表格相关的 MCP 工具
  */
 export function registerBitableTools(server: McpServer, feishuService: FeishuApiService): void {
+  server.tool(
+    'create_feishu_bitable_app',
+    'Creates a new Feishu Bitable app. Returns app token and URL.',
+    {
+      name: BitableAppNameSchema,
+      folderToken: BitableFolderTokenSchema,
+    },
+    async ({ name, folderToken }) => {
+      try {
+        const result = await createBitableApp({ name, folderToken }, feishuService);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      } catch (error) {
+        Logger.error('创建多维表失败:', error);
+        return errorResponse(`创建多维表失败: ${formatErrorMessage(error)}`);
+      }
+    }
+  );
+
+  server.tool(
+    'create_feishu_bitable_table',
+    'Creates a new table within a Feishu Bitable app.',
+    {
+      appToken: BitableAppTokenSchema,
+      name: BitableTableNameSchema,
+    },
+    async ({ appToken, name }) => {
+      try {
+        const result = await createBitableTable({ appToken, name }, feishuService);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      } catch (error) {
+        Logger.error('创建多维表表格失败:', error);
+        return errorResponse(`创建多维表表格失败: ${formatErrorMessage(error)}`);
+      }
+    }
+  );
+
+  server.tool(
+    'create_feishu_bitable_field',
+    'Creates a new field (column) in a Bitable table.',
+    {
+      appToken: BitableAppTokenSchema,
+      tableId: BitableTableIdSchema,
+      fieldName: BitableCreateFieldSchema.shape.fieldName,
+      fieldType: BitableCreateFieldSchema.shape.fieldType,
+      property: BitableCreateFieldSchema.shape.property,
+    },
+    async ({ appToken, tableId, fieldName, fieldType, property }) => {
+      try {
+        const result = await createBitableField(
+          { appToken, tableId, fieldName, fieldType, property },
+          feishuService
+        );
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      } catch (error) {
+        Logger.error('创建多维表字段失败:', error);
+        return errorResponse(`创建多维表字段失败: ${formatErrorMessage(error)}`);
+      }
+    }
+  );
+
   server.tool(
     'list_feishu_bitable_tables',
     'Lists all tables within a Feishu Bitable app.',

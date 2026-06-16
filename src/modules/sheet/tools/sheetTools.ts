@@ -4,6 +4,7 @@ import { FeishuApiService } from '../../../services/feishuApiService.js';
 import { Logger } from '../../../utils/logger.js';
 import { errorResponse } from '../../document/tools/toolHelpers.js';
 import {
+  createSpreadsheet,
   getSpreadsheetInfo,
   listSheets,
   createSheet,
@@ -22,12 +23,32 @@ import {
   SheetValuesSchema,
   SheetTitleSchema,
   SheetValueInputOptionSchema,
+  SpreadsheetTitleSchema,
+  SpreadsheetFolderTokenSchema,
 } from '../../../types/sheetSchema.js';
 
 /**
  * 注册飞书电子表格相关的 MCP 工具
  */
 export function registerSheetTools(server: McpServer, feishuService: FeishuApiService): void {
+  server.tool(
+    'create_feishu_spreadsheet',
+    'Creates a new Feishu spreadsheet file. Returns spreadsheet token and URL.',
+    {
+      title: SpreadsheetTitleSchema,
+      folderToken: SpreadsheetFolderTokenSchema,
+    },
+    async ({ title, folderToken }) => {
+      try {
+        const result = await createSpreadsheet({ title, folderToken }, feishuService);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      } catch (error) {
+        Logger.error('创建电子表格失败:', error);
+        return errorResponse(`创建电子表格失败: ${formatErrorMessage(error)}`);
+      }
+    }
+  );
+
   server.tool(
     'get_feishu_spreadsheet_info',
     'Gets metadata of a Feishu spreadsheet.',

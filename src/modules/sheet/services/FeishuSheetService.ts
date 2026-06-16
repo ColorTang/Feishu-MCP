@@ -11,6 +11,21 @@ export class FeishuSheetService extends FeishuBaseApiService {
   }
 
   /**
+   * 创建新的电子表格文件
+   * @param title 电子表格标题
+   * @param folderToken 目标文件夹 token（可选）
+   */
+  public async createSpreadsheet(title: string, folderToken?: string): Promise<any> {
+    try {
+      const body: any = { title };
+      if (folderToken) body.folder_token = folderToken;
+      return this.post('/sheets/v3/spreadsheets', body);
+    } catch (error) {
+      this.handleApiError(error, '创建电子表格失败');
+    }
+  }
+
+  /**
    * 获取电子表格元数据
    * @param spreadsheetToken 电子表格 token
    */

@@ -1,6 +1,17 @@
 import { FeishuApiService } from '../../../services/feishuApiService.js';
 import { Logger } from '../../../utils/logger.js';
 
+export interface CreateSpreadsheetParams {
+  title: string;
+  folderToken?: string;
+}
+
+export async function createSpreadsheet(params: CreateSpreadsheetParams, api: FeishuApiService): Promise<any> {
+  const { title, folderToken } = params;
+  Logger.info(`createSpreadsheet invoked: title=${title}`);
+  return api.createSpreadsheet(title, folderToken);
+}
+
 export interface GetSpreadsheetInfoParams {
   spreadsheetToken: string;
 }

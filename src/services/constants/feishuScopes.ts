@@ -80,6 +80,36 @@ export const MODULE_SCOPES: Record<string, { tenant: string[]; userOnly: string[
     ],
     userOnly: [],
   },
+  permission: {
+    tenant: [
+      "drive:permission",
+      "drive:permission:member",
+      "drive:permission:member:readonly",
+      "base:collaborator:create",
+      "base:collaborator:delete",
+      "base:role:create",
+      "base:role:delete",
+      "base:role:update",
+      "base:role:readonly",
+    ],
+    userOnly: [
+      "drive:permission",
+      "drive:permission:member",
+    ],
+  },
+  message: {
+    tenant: [
+      "im:chat",
+      "im:chat:readonly",
+      "im:message",
+      "im:message:send_as_bot",
+      "im:message.group_msg",
+    ],
+    userOnly: [
+      "im:chat",
+      "im:message",
+    ],
+  },
 };
 
 /**

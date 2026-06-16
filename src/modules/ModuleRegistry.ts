@@ -5,6 +5,8 @@ import { calendarModule } from './calendar/index.js';
 import { memberModule } from './member/index.js';
 import { bitableModule } from './bitable/index.js';
 import { sheetModule } from './sheet/index.js';
+import { permissionModule } from './permission/index.js';
+import { messageModule } from './message/index.js';
 
 const ALL_MODULES: FeatureModule[] = [
   documentModule,
@@ -13,6 +15,8 @@ const ALL_MODULES: FeatureModule[] = [
   memberModule,
   bitableModule,
   sheetModule,
+  permissionModule,
+  messageModule,
 ];
 
 /**

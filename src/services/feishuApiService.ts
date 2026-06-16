@@ -7,6 +7,8 @@ import { FeishuSearchService } from '../modules/document/services/FeishuSearchSe
 import { FeishuWhiteboardService } from '../modules/document/services/FeishuWhiteboardService.js';
 import { FeishuBitableService } from '../modules/bitable/services/FeishuBitableService.js';
 import { FeishuSheetService } from '../modules/sheet/services/FeishuSheetService.js';
+import { FeishuPermissionService } from '../modules/permission/services/FeishuPermissionService.js';
+import { FeishuMessageService } from '../modules/message/services/FeishuMessageService.js';
 import {
   FeishuTaskService,
   type CreateTaskParams,
@@ -50,6 +52,8 @@ export class FeishuApiService {
     private readonly memberService: FeishuMemberService,
     private readonly bitableService: FeishuBitableService,
     private readonly sheetService: FeishuSheetService,
+    private readonly permissionService: FeishuPermissionService,
+    private readonly messageService: FeishuMessageService,
   ) {}
 
   /** 组装所有领域服务并返回 FeishuApiService 新实例 */
@@ -66,6 +70,8 @@ export class FeishuApiService {
     const memberService = new FeishuMemberService(authService);
     const bitableService = new FeishuBitableService(authService);
     const sheetService = new FeishuSheetService(authService);
+    const permissionService = new FeishuPermissionService(authService);
+    const messageService = new FeishuMessageService(authService);
 
     return new FeishuApiService(
       documentService,
@@ -78,6 +84,8 @@ export class FeishuApiService {
       memberService,
       bitableService,
       sheetService,
+      permissionService,
+      messageService,
     );
   }
 
@@ -455,7 +463,76 @@ export class FeishuApiService {
     return this.memberService.batchGetUsers(userIds, userIdType);
   }
 
+  // ─── Message 服务委托 ─────────────────────────────────────────────
+
+  /** @see FeishuMessageService.sendMessage */
+  public async sendFeishuMessage(
+    receiveIdType: string,
+    receiveId: string,
+    msgType: string,
+    content: Record<string, any>,
+    uuid?: string,
+    updateMulti?: boolean
+  ): Promise<any> {
+    return this.messageService.sendMessage(receiveIdType, receiveId, msgType, content, uuid, updateMulti);
+  }
+
+  /** @see FeishuMessageService.replyMessage */
+  public async replyFeishuMessage(
+    messageId: string,
+    msgType: string,
+    content: Record<string, any>
+  ): Promise<any> {
+    return this.messageService.replyMessage(messageId, msgType, content);
+  }
+
+  // ─── Permission 服务委托 ──────────────────────────────────────────
+
+  /** @see FeishuPermissionService.addDriveMember */
+  public async addDriveMember(
+    token: string,
+    type: string | undefined,
+    memberType: string,
+    memberId: string,
+    perm?: string,
+    notify?: boolean,
+    shareMsg?: boolean
+  ): Promise<any> {
+    return this.permissionService.addDriveMember(token, type, memberType, memberId, perm, notify, shareMsg);
+  }
+
+  /** @see FeishuPermissionService.addBitableRoleMember */
+  public async addBitableRoleMember(
+    appToken: string,
+    roleId: string,
+    memberType: string,
+    memberId: string
+  ): Promise<any> {
+    return this.permissionService.addBitableRoleMember(appToken, roleId, memberType, memberId);
+  }
+
   // ─── Bitable 服务委托 ─────────────────────────────────────────────
+
+  /** @see FeishuBitableService.createApp */
+  public async createBitableApp(name: string, folderToken?: string): Promise<any> {
+    return this.bitableService.createApp(name, folderToken);
+  }
+
+  /** @see FeishuBitableService.createTable */
+  public async createBitableTable(appToken: string, name: string): Promise<any> {
+    return this.bitableService.createTable(appToken, name);
+  }
+
+  /** @see FeishuBitableService.createField */
+  public async createBitableField(
+    appToken: string,
+    tableId: string,
+    fieldName: string,
+    fieldType: number,
+    property?: Record<string, any>
+  ): Promise<any> {
+    return this.bitableService.createField(appToken, tableId, fieldName, fieldType, property);
+  }
 
   /** @see FeishuBitableService.listTables */
   public async listBitableTables(appToken: string, pageToken?: string, pageSize?: number): Promise<any> {
@@ -508,6 +585,11 @@ export class FeishuApiService {
   }
 
   // ─── Sheet 服务委托 ───────────────────────────────────────────────
+
+  /** @see FeishuSheetService.createSpreadsheet */
+  public async createSpreadsheet(title: string, folderToken?: string): Promise<any> {
+    return this.sheetService.createSpreadsheet(title, folderToken);
+  }
 
   /** @see FeishuSheetService.getSpreadsheetInfo */
   public async getSpreadsheetInfo(spreadsheetToken: string): Promise<any> {

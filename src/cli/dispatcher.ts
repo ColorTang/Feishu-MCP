@@ -36,6 +36,7 @@ import { getUsers } from '../modules/member/toolApi/index.js';
 
 // Sheet toolApis
 import {
+  createSpreadsheet,
   getSpreadsheetInfo,
   listSheets,
   createSheet,
@@ -49,6 +50,9 @@ import {
 
 // Bitable toolApis
 import {
+  createBitableApp,
+  createBitableTable,
+  createBitableField,
   listBitableTables,
   listBitableFields,
   listBitableRecords,
@@ -60,6 +64,12 @@ import {
   deleteBitableRecord,
   batchDeleteBitableRecords,
 } from '../modules/bitable/toolApi/bitableToolApi.js';
+
+// Permission toolApis
+import { addDriveMember } from '../modules/permission/toolApi/permissionToolApi.js';
+
+// Message toolApis
+import { sendMessage, replyMessage } from '../modules/message/toolApi/messageToolApi.js';
 
 type AuthType = 'tenant' | 'user';
 type ToolHandler = (params: any, svc: FeishuApiService) => Promise<any>;
@@ -139,6 +149,7 @@ const MODULE_REGISTRY: Record<string, ModuleToolMap> = {
   sheet: {
     authType: 'tenant',
     tools: {
+      create_feishu_spreadsheet:   (p, s) => createSpreadsheet(p, s),
       get_feishu_spreadsheet_info: (p, s) => getSpreadsheetInfo(p, s),
       list_feishu_sheets:          (p, s) => listSheets(p, s),
       create_feishu_sheet:         (p, s) => createSheet(p, s),
@@ -154,6 +165,9 @@ const MODULE_REGISTRY: Record<string, ModuleToolMap> = {
   bitable: {
     authType: 'tenant',
     tools: {
+      create_feishu_bitable_app:             (p, s) => createBitableApp(p, s),
+      create_feishu_bitable_table:           (p, s) => createBitableTable(p, s),
+      create_feishu_bitable_field:           (p, s) => createBitableField(p, s),
       list_feishu_bitable_tables:            (p, s) => listBitableTables(p, s),
       list_feishu_bitable_fields:            (p, s) => listBitableFields(p, s),
       list_feishu_bitable_records:           (p, s) => listBitableRecords(p, s),
@@ -167,6 +181,21 @@ const MODULE_REGISTRY: Record<string, ModuleToolMap> = {
       ),
       delete_feishu_bitable_record:          (p, s) => deleteBitableRecord(p, s),
       batch_delete_feishu_bitable_records:   (p, s) => batchDeleteBitableRecords(p, s),
+    },
+  },
+
+  permission: {
+    authType: 'tenant',
+    tools: {
+      add_feishu_drive_member: (p, s) => addDriveMember(p, s),
+    },
+  },
+
+  message: {
+    authType: 'tenant',
+    tools: {
+      send_feishu_message:  (p, s) => sendMessage(p, s),
+      reply_feishu_message: (p, s) => replyMessage(p, s),
     },
   },
 };
