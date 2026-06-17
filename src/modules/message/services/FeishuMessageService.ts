@@ -28,10 +28,9 @@ export class FeishuMessageService extends FeishuBaseApiService {
     updateMulti?: boolean
   ): Promise<any> {
     try {
-      const encodedReceiveId = Buffer.from(receiveId).toString('base64');
       const url = `/im/v1/messages?receive_id_type=${receiveIdType}`;
       const body: any = {
-        receive_id: encodedReceiveId,
+        receive_id: receiveId,
         msg_type: msgType,
         content: JSON.stringify(content),
       };

@@ -33,8 +33,10 @@ export class FeishuPermissionService extends FeishuBaseApiService {
       const url = type
         ? `/drive/v1/permissions/${token}/members?type=${type}`
         : `/drive/v1/permissions/${token}/members`;
+      // 飞书 Drive 权限 API 要求 member_type 为 openid，但用户习惯传 open_id
+      const normalizedMemberType = memberType === 'open_id' ? 'openid' : memberType;
       const body: any = {
-        member_type: memberType,
+        member_type: normalizedMemberType,
         member_id: memberId,
         perm,
       };
